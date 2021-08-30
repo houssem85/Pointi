@@ -1,0 +1,674 @@
+{% extends "base.html" %} {% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-10">
+        <h1>Employees</h1>
+      </div>
+      <div class="col-sm-1">
+        <button
+          type="button"
+          class="btn btn-block btn-primary"
+          onclick="trainning()"
+        >
+          Trainning
+        </button>
+      </div>
+      <div class="col-sm-1">
+        <button
+          type="button"
+          class="btn btn-block btn-primary"
+          onclick="show_modal_add_employee()"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">ListEmployees</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="table_employees"
+                    class="
+                      table table-bordered table-striped
+                      dataTable
+                      dtr-inline
+                    "
+                    role="grid"
+                    aria-describedby="example1_info"
+                  >
+                    <thead>
+                      <tr role="row">
+                        <th
+                          class="sorting sorting_asc"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-sort="ascending"
+                          aria-label="Rendering engine: activate to sort column descending"
+                        >
+                          Email
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Browser: activate to sort column ascending"
+                        >
+                          First Name
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                        >
+                          Last Name
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                        >
+                          Phone
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                        >
+                          Begin work
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                          style="width: 100px"
+                        >
+                          actions
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                          style="width: 70px"
+                        >
+                          images
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<div class="modal fade" id="modal_edit_employee">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit employee</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- text input -->
+            <div class="form-group">
+              <label>First Name</label>
+              <input
+                id="input_first_name"
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input
+                id="input_last_name"
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- text input -->
+            <div class="form-group">
+              <label>Phone</label>
+              <input
+                id="input_phone"
+                type="text"
+                class="form-control"
+                placeholder="Phone"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Date begin work</label>
+              <input
+                id="input_date_begin_work"
+                type="date"
+                class="form-control"
+                placeholder="Date begin work"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputFile">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Upload</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" onclick="edit_employee()">
+          Save
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal_add_employee">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add employee</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- text input -->
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                id="input_add_email"
+                type="email"
+                class="form-control"
+                placeholder="Email"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- text input -->
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                id="input_add_password"
+                type="password"
+                class="form-control"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- text input -->
+            <div class="form-group">
+              <label>First Name</label>
+              <input
+                id="input_add_first_name"
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input
+                id="input_add_last_name"
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- text input -->
+            <div class="form-group">
+              <label>Phone</label>
+              <input
+                id="input_add_phone"
+                type="text"
+                class="form-control"
+                placeholder="Phone"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Date begin work</label>
+              <input
+                id="input_add_date_begin_work"
+                type="date"
+                class="form-control"
+                placeholder="Date begin work"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputFile">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="exampleInputFile"
+              />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Upload</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" onclick="add_employee()">
+          Add
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal_images">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Images</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleInputFile">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="input_file_image"
+              />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+            <div class="input-group-append">
+              <button class="input-group-text" onclick="add_image()">
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_images_body"></div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>
+{% endblock %} {% block logic_script %}
+<script>
+  var table_employees;
+
+  function load_employees_in_table() {
+    table_employees = $("#table_employees").DataTable({
+      ajax: {
+        url: "http://127.0.0.1:5000/api/employees",
+        dataSrc: "",
+      },
+      columns: [
+        { data: "user.email" },
+        { data: "user.first_name" },
+        { data: "user.last_name" },
+        { data: "phone" },
+        { data: "date_begin_work" },
+        { data: "id" },
+        { data: "id" },
+      ],
+      columnDefs: [
+        {
+          targets: 4,
+          render: function (data, type, full, meta) {
+            return data.substr(0, 10);
+          },
+        },
+        {
+          targets: 5,
+          render: function (data, type, full, meta) {
+            return (
+              "<button type='button' class='btn btn-danger btn-lg' style='margin-right : 10px;' onclick='delete_employee(\"" +
+              data +
+              "\")'><i class='far fa-trash-alt'></i></button><button onclick='show_lodal_edit_employee(\"" +
+              data +
+              "\")' type='button' class='btn btn-info btn-lg'><i class='fas fa-pen-alt'></i></button>"
+            );
+          },
+        },
+        {
+          targets: 6,
+          render: function (data, type, full, meta) {
+            return (
+              "<button type='button' class='btn btn-danger btn-lg' style='margin-right : 10px;' onclick='show_modal_images(\"" +
+              data +
+              "\")'><i class='fas fa-images'></i>"
+            );
+          },
+        },
+      ],
+    });
+  }
+
+  function refresh_table_employees() {
+    table_employees.ajax.reload();
+  }
+
+  $(document).ready(function () {
+    load_employees_in_table();
+    bsCustomFileInput.init();
+  });
+
+  function delete_employee(id) {
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/employee?id=" + id,
+      type: "DELETE",
+      success: function (result) {
+        refresh_table_employees();
+      },
+    });
+  }
+
+  var employee_id = "";
+
+  function show_lodal_edit_employee(id) {
+    employee_id = id;
+    $("#modal_edit_employee").modal("show");
+    var data = table_employees.rows().data().toArray();
+    var employee = data.filter(function (employee) {
+      return employee.id == id;
+    })[0];
+    $("#input_first_name").val(employee.user.first_name);
+    $("#input_last_name").val(employee.user.last_name);
+    $("#input_phone").val(employee.phone);
+    $("#input_date_begin_work").val(employee.date_begin_work.substr(0, 10));
+  }
+
+  function edit_employee() {
+    var first_name = $("#input_first_name").val();
+    var last_name = $("#input_last_name").val();
+    var phone = $("#input_phone").val();
+    var date_begin_work = $("#input_date_begin_work").val();
+    var data = {
+      id: employee_id,
+      first_name: first_name,
+      last_name: last_name,
+      phone: phone,
+      date_begin_work: date_begin_work,
+    };
+    var isFormValid =
+      first_name != "" &&
+      last_name != "" &&
+      phone != "" &&
+      date_begin_work != "";
+    if (isFormValid) {
+      $.ajax({
+        type: "PUT",
+        url: "http://127.0.0.1:5000/api/employee",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+          $("#modal_edit_employee").modal("hide");
+          $("#input_first_name").val("");
+          $("#input_last_name").val("");
+          $("#input_phone").val("");
+          $("#input_date_begin_work").val("");
+          refresh_table_employees();
+        },
+        error: function (errMsg) {
+          alert(errMsg);
+        },
+      });
+    } else {
+      toastr.error("all fields are required");
+    }
+  }
+
+  function show_modal_add_employee() {
+    $("#modal_add_employee").modal("show");
+  }
+
+  function add_employee() {
+    var email = $("#input_add_email").val();
+    var password = $("#input_add_password").val();
+    var first_name = $("#input_add_first_name").val();
+    var last_name = $("#input_add_last_name").val();
+    var phone = $("#input_add_phone").val();
+    var date_begin_work = $("#input_add_date_begin_work").val();
+    var data = {
+      email: email,
+      password: password,
+      first_name: first_name,
+      last_name: last_name,
+      phone: phone,
+      date_begin_work: date_begin_work,
+      image_base_64: "",
+    };
+    var isFormValid =
+      validateEmail(email) &&
+      password != "" &&
+      first_name != "" &&
+      last_name != "" &&
+      phone != "" &&
+      date_begin_work != "";
+    if (isFormValid) {
+      $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:5000/api/employee",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+          if (data.success == true) {
+            $("#modal_add_employee").modal("hide");
+            $("#input_add_email").val("");
+            $("#input_add_password").val("");
+            $("#input_add_first_name").val("");
+            $("#input_add_last_name").val("");
+            $("#input_add_phone").val("");
+            $("#input_add_date_begin_work").val("");
+            refresh_table_employees();
+          } else {
+            toastr.error(data.msg);
+          }
+        },
+        error: function (errMsg) {
+          toastr.error(errMsg);
+        },
+      });
+    } else {
+      if (!validateEmail(email)) {
+        toastr.error("email format invalid");
+      } else {
+        toastr.error("all fields are required");
+      }
+    }
+  }
+
+  function validateEmail(email) {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  function show_modal_images(id) {
+    employee_id = id;
+    $("#modal_images").modal("show");
+    load_images(id);
+  }
+
+  function load_images(id) {
+    var html = "";
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/pictures?id=" + id,
+      type: "GET",
+      success: function (result) {
+        for (let i = 0; i < result.length; i++) {
+          html +=
+            "<div class='col-sm-3'><div class='card'><img src='static/" +
+            result[i] +
+            "') }}' class='card-img-top' alt='...' height='250px'/> <div class='card-body text-center'> <a onClick='delete_image(\"" +
+            result[i] +
+            "\")' class='btn btn-danger'>Delete</a></div></div></div>";
+        }
+        $("#modal_images_body").html(html);
+      },
+    });
+  }
+
+  function delete_image(path) {
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/picture?path=" + path,
+      type: "DELETE",
+      success: function (result) {
+        load_images(employee_id);
+      },
+    });
+  }
+
+  function add_image() {
+    var formData = new FormData();
+    formData.append("file", $("#input_file_image")[0].files[0]);
+    formData.append("id", employee_id);
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/picture",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        load_images(employee_id);
+        $("#input_file_image").val("");
+      },
+    });
+  }
+
+  function trainning() {
+    waitingDialog.show("Svp veuillez attendre quelque temps...");
+    $.ajax({
+      url: "http://127.0.0.1:5000/trainning",
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        waitingDialog.hide();
+      },
+      error: function (request, error) {
+        waitingDialog.hide();
+        alert("Request: " + JSON.stringify(request));
+      },
+    });
+  }
+</script>
+{% endblock %}

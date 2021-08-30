@@ -1,0 +1,348 @@
+{% extends "base.html" %} {% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-11">
+        <h1>Profile</h1>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <img
+                class="profile-user-img img-fluid img-circle"
+                src="static/dist/img/avatar6.png"
+                alt="User profile picture"
+              />
+            </div>
+
+            <h3 class="profile-username text-center">
+              {{ current_user.first_name }} {{ current_user.last_name }}
+            </h3>
+
+            <p class="text-muted text-center">{{ current_user.email }}</p>
+
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Role</b> <a class="float-right">{{ current_user.role }}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Phone</b>
+                <a class="float-right">{{ current_employee.phone }}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Begin work</b>
+                <a class="float-right"
+                  >{{ current_employee.date_begin_work.strftime('%Y-%m-%d')}}</a
+                >
+              </li>
+            </ul>
+
+            <a
+              class="btn btn-primary btn-block"
+              onclick="show_modal_images('{{ current_employee.id }}')"
+              ><b>Follow</b></a
+            >
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" href="#settings" data-toggle="tab"
+                  >Personal informations</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#timeline" data-toggle="tab"
+                  >Change password</a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="settings">
+                <div class="form-group row">
+                  <label for="input_first_name" class="col-sm-2 col-form-label"
+                    >First Name</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="input_first_name"
+                      placeholder="Name"
+                      value="{{ current_employee.user.first_name }}"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="input_last_name" class="col-sm-2 col-form-label"
+                    >Last Name</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="input_last_name"
+                      placeholder="Email"
+                      value="{{ current_employee.user.last_name }}"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="input_phone" class="col-sm-2 col-form-label"
+                    >phone</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="input_phone"
+                      placeholder="Name"
+                      value="{{ current_employee.phone }}"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="offset-sm-2 col-sm-10">
+                    <button
+                      type="submit"
+                      class="btn btn-danger"
+                      onclick="update_user_profile()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="timeline">
+                <!-- The timeline -->
+                <div class="form-group row">
+                  <label for="input_first_name" class="col-sm-2 col-form-label"
+                    >Old password</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="input_old_password"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="input_last_name" class="col-sm-2 col-form-label"
+                    >New password</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="input_new_password"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="offset-sm-2 col-sm-10">
+                    <button
+                      type="submit"
+                      class="btn btn-danger"
+                      onclick="update_password()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<div class="modal fade" id="modal_images">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Images</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleInputFile">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="input_file_image"
+              />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+            <div class="input-group-append">
+              <button class="input-group-text" onclick="add_image()">
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_images_body"></div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>
+{% endblock %} {% block logic_script %}
+<script>
+  function update_user_profile() {
+    var first_name = $("#input_first_name").val();
+    var last_name = $("#input_last_name").val();
+    var phone = $("#input_phone").val();
+    if (first_name != "" && last_name != "" && phone != "") {
+      var data = {
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+      };
+      $.ajax({
+        type: "PUT",
+        url: "http://127.0.0.1:5000/api/update_current_profile",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+          location.reload();
+        },
+        error: function (errMsg) {
+          alert(errMsg);
+        },
+      });
+    } else {
+      toastr.error("all fields are required");
+    }
+  }
+
+  function update_password() {
+    var old_password = $("#input_old_password").val();
+    var new_password = $("#input_new_password").val();
+    if (old_password != "" && new_password != "") {
+      var data = {
+        old_password: old_password,
+        new_password: new_password,
+      };
+      $.ajax({
+        type: "PUT",
+        url: "http://127.0.0.1:5000/api/change_password",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+          if (data.success == true) {
+            toastr.success("password changed successfully");
+          } else {
+            toastr.error(data.msg);
+          }
+        },
+        error: function (errMsg) {
+          alert(errMsg);
+        },
+      });
+    } else {
+      toastr.error("all fields are required");
+    }
+  }
+
+  var employee_id = "";
+
+  function show_modal_images(id) {
+    employee_id = id;
+    $("#modal_images").modal("show");
+    load_images(id);
+  }
+
+  function load_images(id) {
+    var html = "";
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/pictures?id=" + id,
+      type: "GET",
+      success: function (result) {
+        for (let i = 0; i < result.length; i++) {
+          html +=
+            "<div class='col-sm-3'><div class='card'><img src='static/" +
+            result[i] +
+            "') }}' class='card-img-top' alt='...' height='250px'/> <div class='card-body text-center'> <a onClick='delete_image(\"" +
+            result[i] +
+            "\")' class='btn btn-danger'>Delete</a></div></div></div>";
+        }
+        $("#modal_images_body").html(html);
+      },
+    });
+  }
+
+  function delete_image(path) {
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/picture?path=" + path,
+      type: "DELETE",
+      success: function (result) {
+        load_images(employee_id);
+      },
+    });
+  }
+
+  function add_image() {
+    var formData = new FormData();
+    formData.append("file", $("#input_file_image")[0].files[0]);
+    formData.append("id", employee_id);
+    $.ajax({
+      url: "http://127.0.0.1:5000/api/picture",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        load_images(employee_id);
+        $("#input_file_image").val("");
+      },
+    });
+  }
+
+  $(document).ready(function () {
+    bsCustomFileInput.init();
+  });
+</script>
+{% endblock %}

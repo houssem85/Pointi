@@ -1,0 +1,110 @@
+{% extends "base.html" %} {% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-11">
+        <h1>Attendance log</h1>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Attendance log</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="table_attendance"
+                    class="
+                      table table-bordered table-striped
+                      dataTable
+                      dtr-inline
+                    "
+                    role="grid"
+                    aria-describedby="example1_info"
+                  >
+                    <thead>
+                      <tr role="row">
+                        <th
+                          class="sorting sorting_asc"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-sort="ascending"
+                          aria-label="Rendering engine: activate to sort column descending"
+                        >
+                          Time
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="example1"
+                          rowspan="1"
+                          colspan="1"
+                          aria-label="Platform(s): activate to sort column ascending"
+                        >
+                          Type
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+{% endblock %} {% block logic_script %}
+<script>
+  var table_attendance;
+
+  function load_attendance_in_table() {
+    table_attendance = $("#table_attendance").DataTable({
+      ajax: {
+        url: "http://127.0.0.1:5000/api/my_attendance_log",
+        dataSrc: "",
+      },
+      columns: [{ data: "time" }, { data: "type" }],
+      columnDefs: [
+        {
+          targets: 0,
+          render: function (data, type, full, meta) {
+            return data.replace("T", "   ");
+          },
+        },
+      ],
+    });
+  }
+
+  function refresh_table_attendance() {
+    table_attendance.ajax.reload();
+  }
+
+  $(document).ready(function () {
+    load_attendance_in_table();
+  });
+</script>
+{% endblock %}
